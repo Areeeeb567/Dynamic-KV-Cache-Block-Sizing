@@ -33,14 +33,13 @@ All code is contained in `main.ipynb`. The notebook is organised into four secti
 ## Environment
 
 - GPU: Tesla T4, compute capability 7.5, Google Colab
-- Model: TinyLlama/TinyLlama-1.1B-Chat-v1.0
-- Data type: float16 (bfloat16 not supported on T4)
+- Driver: 580.82.07
+- CUDA: 13.0
+- vLLM version: 0.31.0
 - vLLM commit: 2a54f6b625f28109180b072b704c0b0d372a277d
-- vLLM version: See `results/vllm_version.txt`
-- Python: 3.10 (Google Colab default)
-- CUDA: See `results/nvidia_smi.txt`
-- PyTorch: See `results/requirements.txt`
-- Operating System: Ubuntu 20.04 (Google Colab default)
+- Model: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+- Data type: float16
+- Python: 3.13 (Google Colab default)
 
 ## Setup
 
@@ -95,17 +94,18 @@ Run the cells in Section 4 of `main.ipynb`. This collects all environment files,
 
 | Block Size | Requests/sec | Total Tokens/sec | Output Tokens/sec | Notes |
 |------------|--------------|------------------|-------------------|-------|
-| 16         | 6.46         | 3225.91          | 1654.90           | Baseline |
-| 32         | 6.00         | 2996.91          | 1537.42           | About 7 to 8 percent slower than block size 16. Triton kernel JIT recompilation observed in log. |
+| 16         | 6.55         | 3269.59         | 1677.31           | Baseline |
+| 32         | 6.21         | 3099.12          | 1589.86           | About 5 percent slower than block size 16. Triton kernel JIT recompilation observed in log. |
 | 8          | N/A          | N/A              | N/A               | Failed. No supported attention backend for block size 8 on compute capability 7.5. |
 
 Original paper results (A100 GPUs, larger models) are not directly comparable due to hardware and model scale differences. Only relative trends across block sizes are meaningful here.
 
 ### Azure Trace Summary
 
-- Context tokens: mean 1155, median 1020, max 14050
-- Generated tokens: mean 211, median 129, max 1000
-- Arrival burst factor (max/mean): see `results/azure_trace_summary.txt`
+- Context tokens: mean 1154.70, p90 2734.50
+- Generated tokens: mean 211.13, p90 424.00
+- Arrivals per second: mean 5.53
+- Burst factor (max/mean): 3.44
 - Request class distribution: long 60.5 percent, medium 36.7 percent, short 2.8 percent
 
 ## Known Limitations

@@ -1,0 +1,6 @@
+context_tokens_mean: 1154.70
+context_tokens_p90: 2734.50
+generated_tokens_mean: 211.13
+generated_tokens_p90: 424.00
+arrivals_per_sec_mean: 5.53
+burst_factor: 3.44
